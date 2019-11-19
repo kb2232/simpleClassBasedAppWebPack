@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Season from './Season';
 class App extends React.Component{
 
   constructor(props){
@@ -12,24 +12,13 @@ class App extends React.Component{
       longi:"loading...",
       errMessage:null
     }
-    window.navigator.geolocation.getCurrentPosition(
-      position =>{
-        this.setState({lati:position.coords.latitude}),
-        this.setState({longi:position.coords.longitude})
-      },
-      err =>{
-        this.setState({errMessage:err.message})
-      }
-    )
   }
 
   render(){
     if (this.state.errMessage===null){
         return(
           <div className="component">
-            LATITUDE: {this.state.lati}
-            <br />
-            LONGITUDE: {this.state.longi}
+            <Season lat={this.state.lati} longi={this.state.longi} />
           </div>
         )
     } else {
@@ -40,5 +29,18 @@ class App extends React.Component{
       )
     }
   }
+
+componentDidMount(){
+  window.navigator.geolocation.getCurrentPosition(
+    position =>{
+      this.setState({lati:position.coords.latitude}),
+      this.setState({longi:position.coords.longitude})
+    },
+    err =>{
+      this.setState({errMessage:err.message})
+    }
+  )
+}
+
 }
 export default App;
